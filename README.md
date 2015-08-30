@@ -303,7 +303,7 @@ gpg2 --verify jondo-live-dvd.iso.asc
 
 **Download**
 ```sh
-wget --no-directories --no-parent --reject "index.html*" --recursive http://cdimage.kali.org/kali-latest/i386/
+wget --no-directories --no-parent --reject "index.html*" --recursive http://cdimage.kali.org/kali-2.0/
 ```
 
 **Method**: [Web-/Keyserver](#web-keyserver)
