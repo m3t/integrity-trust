@@ -55,6 +55,9 @@ gpg:          There is no indication that the signature belongs to the owner.
 This warning is related to the trust that you put in the signing key.
 To remove this warning you would have to personally [sign](https://ssl.kundenserver.de/www.hauke-laging.de/sicherheit/openpgp.html#beglaubigung) the signing key with your own key ([--lsign-key](https://ssl.webpack.de/www.openpgp-schulungen.de/glossar/lckey/)).
 
+[![xkcd: Responsible Behavior](http://imgs.xkcd.com/comics/responsible_behavior.png)](https://xkcd.com/364/)
+*by [xkcd](https://xkcd.com/364/)*
+
 Further reading:
 * [Apache Software Foundation](https://www.apache.org/dev/release-signing.html)
 * [GnuPG - FAQ](https://www.gnupg.org/faq/gnupg-faq.html#glossary)
@@ -397,6 +400,12 @@ gpg --verify tails-i386-*.iso.sig
 
 
 ## Misc
+
+* [Cryptographic Algorithms - Cheat Sheet](http://if-is.net/crypto-poster/)
+* [Offline Passphrase Generator](https://en.wikipedia.org/wiki/Diceware)
+
+[![xkcd: Password Strength](http://imgs.xkcd.com/comics/password_strength.png)](https://xkcd.com/936/)
+*by [xkcd](https://xkcd.com/936/)*
 
 ### [Generate key](https://ssl.webpack.de/www.openpgp-courses.org/)
 *Based on a work by Hauke Laging*
