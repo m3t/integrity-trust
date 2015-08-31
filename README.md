@@ -1,7 +1,7 @@
 ## Intro
 
 > In many cases it's much more preferable to build software from the source instead of using signed binaries.
-But this building process has to be carefully thought out:
+But this build process has to be carefully thought out:
 * **Git**
   * [Horror story](http://mikegerwitz.com/papers/git-horror-story)
   * [Signing your work](https://git-scm.com/book/tr/v2/Git-Tools-Signing-Your-Work)
