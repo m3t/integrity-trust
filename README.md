@@ -16,6 +16,8 @@ In terms of [disc images](#disc-images) there is to a certain extent a chicken-e
 *How to deploy a [secure system](https://ssl.kundenserver.de/www.hauke-laging.de/sicherheit/openpgp.html#sicheres_system)?*
 That is why the following commands try to avoid unnecessary expensive **network activity** and don't make use of notable vulnerable network-clients like **web browsers** or BitTorrent clients!
 
+* [EFF - SSD: Keeping Your Data Safe](https://ssd.eff.org/en/module/keeping-your-data-safe)
+
 ### Prepare environment
 *Based on a work by [Daniel Kahn Gillmor](https://help.riseup.net/en/security/message-security/openpgp/best-practices) and Jacob Appelbaum*
 
@@ -403,6 +405,7 @@ gpg --verify tails-i386-*.iso.sig
 
 * [Cryptographic Algorithms - Cheat Sheet](http://if-is.net/crypto-poster/)
 * [Offline Passphrase Generator](https://en.wikipedia.org/wiki/Diceware)
+  * [Animated HowTo](https://ssd.eff.org/en/module/animated-overview-how-make-super-secure-password-using-dice)
 
 [![xkcd: Password Strength](http://imgs.xkcd.com/comics/password_strength.png)](https://xkcd.com/936/)
 *by [xkcd](https://xkcd.com/936/)*
