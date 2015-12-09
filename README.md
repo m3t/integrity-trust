@@ -110,7 +110,8 @@ Check a public key against a "built-in" keyring ..
   and a "%" is used if an error occurred while checking the signature (e.g. a non supported algorithm).
 
 #### DNSSEC/OPENPGPKEY
-[TODO](https://sys4.de/de/blog/2015/02/26/pgp-schluessel-einfach-und-sicher-verteilen/)
+* [TODO](https://sys4.de/de/blog/2015/02/26/pgp-schluessel-einfach-und-sicher-verteilen/)
+* [Posteo public key directory](https://posteo.de/en/blog/new-posteo-public-key-directory)
 
 #### Web-/Keyserver
 
