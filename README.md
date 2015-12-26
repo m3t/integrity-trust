@@ -402,6 +402,36 @@ gpg --verify tails-i386-*.iso.sig
 ```
 
 
+## Applications
+
+### [Tor Browser Bundle](https://prism-break.org/en/projects/tor-browser-bundle/)
+
+```sh
+gpg2 --search-key torbrowser@torproject.org
+```
+
+**Method**: [Web-/Keyserver](#web-keyserver)
+
+```sh
+curl --silent --tlsv1.2 "https://www.torproject.org/docs/signing-keys.html.en" | grep -e 'torbrowser@torproject.org' -C 1 | grep -e 'fingerprint =' # [1]
+
+gpg2 --fingerprint torbrowser@torproject.org # [2]
+```
+
+**Method**: [Built-in keyring - Debian](#built-in-keyring1)
+
+```sh
+apt-get download debian-keyring
+dpkg-deb -x debian-keyring*.deb keyring
+gpg2 --keyring=./keyring/usr/share/keyrings/debian-keyring.gpg --check-sigs torbrowser@torproject.org
+```
+
+```sh
+# Verify ISO
+gpg2 --verify tor-browser-linux*.asc
+```
+
+
 ## Misc
 
 * [Cryptographic Algorithms - Cheat Sheet](http://if-is.net/crypto-poster/)
