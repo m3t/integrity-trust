@@ -123,7 +123,7 @@ Compare the fingerprint between two online sources:
 # TODO: DNSSEC/TLSA
 # TODO: https://testssl.sh/
 # If there's no SSL/TLS support you may use at least somehting like:
-# https://proxy.suma-ev.de/cgi-bin/proxy/nph-proxy.cgi/
+# https://proxy.suma-ev.de/cgi-bin/nph-proxy.cgi/
 # Option A
 curl --tlsv1.2 "https://domain.tld/public_key.asc" | gpg2 --with-fingerprint # [1]
 # Option B
@@ -242,7 +242,7 @@ Browse through [OpenSUSE Build Service](https://en.wikipedia.org/wiki/Open_Build
 
 **Method**: [Web-/Keyserver](#web-keyserver)
 ```sh
-curl --tlsv1.2 "https://proxy.suma-ev.de/cgi-bin/proxy/nph-proxy.cgi/en/-0/http/download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_8.0/Release.key" | gpg2 --with-fingerprint # [1]
+curl --tlsv1.2 "https://proxy.suma-ev.de/cgi-bin/nph-proxy.cgi/en/-0/http/download.opensuse.org/repositories/isv:/ownCloud:/desktop/Debian_8.0/Release.key" | gpg2 --with-fingerprint # [1]
 
 gpg2 --search-key isv:ownCloud
 gpg2 --fingerprint isv:ownCloud # [2]
