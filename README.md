@@ -461,7 +461,8 @@ Data to carry (CD, USB-Stick) to the offline-system
 wget http://www.heise.de/security/dienste/pgp/keys/daffb000.asc
 
 # https://ssl.webpack.de/www.openpgp-schulungen.de/kontakt/
-wget https://ssl.webpack.de/www.openpgp-schulungen.de/users/0x5A21B2D0.asc
+# wget https://ssl.webpack.de/www.openpgp-schulungen.de/users/0x5A21B2D0.asc  # (stripped-down version)
+gpg2 --recv-keys 0x5A21B2D0
 
 # https://ssl.webpack.de/www.openpgp-schulungen.de/download/
 wget https://ssl.webpack.de/www.openpgp-schulungen.de/download/openpgp-scripte.tgz
