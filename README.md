@@ -9,6 +9,8 @@
       * [Certification Authorities](#certification-authorities)
     * [Built-in keyring](#built-in-keyring1)
     * [DNSSEC](#dnssec)
+      * [Local DNS](#local-dns-resolver--forwarder)
+      * [OPENPGPKEY](#openpgpkey)
     * [Web-/Keyserver](#web-keyserver)
       * [Webserver](#webserver-1)
       * [Keyserver](#keyserver-2)
@@ -232,6 +234,55 @@ You should see status: `SERVFAIL`, since this domain is deliberately configured 
 ###### Web-based testing:
 - http://dnssec.vs.uni-due.de/
 - http://dnssectest.sidnlabs.nl/test.php
+
+
+##### `OPENPGPKEY`
+* [sys4 article](https://sys4.de/de/blog/2015/02/26/pgp-schluessel-einfach-und-sicher-verteilen/)
+* [Posteo public key directory](https://posteo.de/en/blog/new-posteo-public-key-directory)
+* https://tools.ietf.org/html/draft-ietf-dane-openpgpkey-03
+
+This method retrieves a key from a DNS record which is validated using DNSSEC.
+
+```sh
+aptitude install dnsutils
+```
+
+###### bash-script
+- https://sys4.de/de/blog/2015/03/08/openpgpkey-mit-unix-bordmitteln/
+
+```bash
+#! env bash
+# fetches an OPENPGPKEY in binary format
+# based on a Twitter msg by Paul Wouters (https://twitter.com/letoams/status/560834359981539329)
+# updated for draft-ietf-dane-openpgpkey-03
+# 2015-05-14
+
+maildomain=$(echo $1 | cut -d "@" -f 2)
+localmail=$(echo $1 | cut -d "@" -f 1)
+openpgpkeydomain=$(echo -n $localmail | openssl dgst -sha256 | cut -d "=" -f 2 | cut -c 1-57)._openpgpkey.$maildomain
+#echo "fetching ${openpgpkeydomain} ..." # don't spoil output for piping
+dig +short +vc type61 $openpgpkeydomain | sed "s/ [^ ]*//;s/\W//g" | xxd -r -p
+```
+*by [Carsten Strotmann](https://sys4.de/de/blog/authors/cs@sys4.de/)*
+
+Get fingerprint
+```sh
+./openpgp-fetch "owner@domain.tld" | gpg2 --with-fingerprint
+```
+
+Import to your public keyring
+```sh
+./openpgp-fetch "owner@domain.tld" | gpg2 --import
+
+# save as binary file
+./openpgp-fetch "owner@domain.tld" > owner@domain.tld.key
+# import binary file
+gpg2 --import owner@domain.tld.key
+```
+
+###### Other tools
+- https://github.com/letoams/hash-slinger
+- https://github.com/benningm/pgpfinger
 
 
 #### Web-/Keyserver
