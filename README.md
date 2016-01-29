@@ -8,7 +8,7 @@
     * [Offline fingerprint](#offline-fingerprint1)
       * [Certification Authorities](#certification-authorities)
     * [Built-in keyring](#built-in-keyring1)
-    * [DNSSEC/OPENPGPKEY](#dnssecopenpgpkey)
+    * [DNSSEC](#dnssec)
     * [Web-/Keyserver](#web-keyserver)
       * [Webserver](#webserver-1)
       * [Keyserver](#keyserver-2)
@@ -146,9 +146,93 @@ Check a public key against a "built-in" keyring ..
   a "-" denotes a bad signature
   and a "%" is used if an error occurred while checking the signature (e.g. a non supported algorithm).
 
-#### DNSSEC/OPENPGPKEY
-* [TODO](https://sys4.de/de/blog/2015/02/26/pgp-schluessel-einfach-und-sicher-verteilen/)
-* [Posteo public key directory](https://posteo.de/en/blog/new-posteo-public-key-directory)
+#### DNSSEC
+
+##### Local DNS resolver / forwarder
+- http://www.heise.de/netze/artikel/Auskunft-mit-Siegel-dnsmasq-als-DNSSEC-validierender-Resolver-2628642.html
+- https://wiki.gentoo.org/wiki/Dnsmasq#DNSSEC
+- http://wiki.ipfire.org/en/dns/public-servers
+- https://data.iana.org/root-anchors/root-anchors.xml
+
+```sh
+sudo aptitude install dnsmasq
+```
+
+###### `/etc/dnsmasq.conf`
+
+Dnsmasq can validate DNSSEC data while passing through data.
+
+```
+# Uncomment these to enable DNSSEC validation and caching:
+# (Requires dnsmasq to be built with DNSSEC option.)
+conf-file=/usr/share/dnsmasq-base/trust-anchors.conf
+dnssec
+
+# Be aware of man-in-the-middle:
+# Setting this option tells dnsmasq to
+# check that an unsigned reply is OK, by finding a secure proof that a DS 
+# record somewhere between the root and the domain does not exist. 
+dnssec-check-unsigned
+
+
+# If you don't want dnsmasq to read /etc/resolv.conf or any other
+# file, getting its servers from this file instead (see below), then
+# uncomment this.
+no-resolv
+server=194.150.168.168    #  Chaos Computer Club (CCC)
+
+
+# For local use only
+listen-address=127.0.0.1
+```
+
+###### `/etc/resolv.conf`
+Use loopback interface as nameserver. 
+
+```
+nameserver 127.0.0.1
+nameserver 194.150.168.168
+```
+
+###### `/etc/dhcp/dhclient.conf`
+- https://wiki.debian.org/HowTo/dnsmasq#Local_Caching
+
+If you're using DHCP, then instruct your client to prepend `127.0.0.1` to the DHCP servers it receives.
+
+```
+prepend domain-name-servers 127.0.0.1;
+```
+
+
+###### Test config
+- https://wiki.debian.org/DNSSEC
+
+
+```sh
+sudo service dnsmasq restart 
+```
+
+- After this change dnsmasq will return `SERVFAIL` and no DNS data if the validation fails.
+- If the validation succeeds it sets the `ad flag`.
+- In case the domain does not support DNSSEC dnsmasq behaves as before. 
+
+```sh
+dig org. SOA +dnssec | grep -e 'ad'
+```
+In the flags you should see `ad`.
+
+```sh
+dig +noall +comments dnssec-failed.org
+# ;; Got answer:
+# ;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 57099
+# ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 0
+```
+You should see status: `SERVFAIL`, since this domain is deliberately configured broken. 
+
+###### Web-based testing:
+- http://dnssec.vs.uni-due.de/
+- http://dnssectest.sidnlabs.nl/test.php
+
 
 #### Web-/Keyserver
 
