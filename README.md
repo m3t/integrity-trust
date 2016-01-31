@@ -713,6 +713,10 @@ gpg2 --verify tor-browser-linux*.asc
 * Quick guides, slides [#1](https://ssl.webpack.de/www.openpgp-schulungen.de/inhalte/einrichtung/materialien/)
   [#2](https://ssl.webpack.de/www.openpgp-schulungen.de/teilnehmer/)
 
+Better **not** use [haveged](https://wiki.archlinux.org/index.php/Haveged) for key generation!
+Consider hardware-based [rngd](https://wiki.archlinux.org/index.php/Rng-tools) instead,
+in case you are too lazy producing entropy with your keyboard/mouse.
+
 #### System: Online
 Data to carry (CD, USB-Stick) to the offline-system
 ```sh
