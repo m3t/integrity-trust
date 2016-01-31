@@ -36,6 +36,7 @@
     * [System: Online](#system-online)
     * [System: Offline](#system-offline-eg-knoppix)
   * [Smartcard](#smartcard)
+  * [Splitting](#splitting-the-master-key-in-parts)
 
 
 ## Intro
@@ -753,12 +754,15 @@ gpg2 --verify openpgp-scripte.tgz.asc
 ```
 
 ### Smartcard
-
 * https://wiki.fsfe.org/Card_howtos/Card_with_subkeys_using_backups
 * https://www.unitas-network.de/wissenswertes/anleitungen/smartcards
 * https://privacy-handbuch.de/handbuch_32r.htm
 * http://wiki.gnupg.org/SmartCard
 
+### Splitting the master key in parts
+- [gfsplit](https://tracker.debian.org/pkg/libgfshare)
+- [Shamir’s Secret Sharing Scheme](http://dl.acm.org/citation.cfm?doid=359168.359176)
+- [Example](https://tails.boum.org/news/signing_key_transition/index.en.html#index2h1)
 
 ***
 <a name="footnote1">1</a>: Actually it's not really important to get the public key on a secure way.
