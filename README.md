@@ -19,6 +19,7 @@
   * [Move key from GnuPG to APT keyring](#move-key-from-gnupg-to-apt-keyring)
   * [Check signature](#check-signature)
   * [Verify checksum](#verify-checksum)
+  * [APT partial mirror](#apt-partial-mirror)
 * [Repositories](#repositories)
   * [JonDo](#jondo)
   * [ownCloud](#owncloud)
@@ -364,6 +365,92 @@ gpg2 --verify IMAGE.iso.sig IMAGE-vXX.iso
 # Read checksums from the file and check them
 # No output <=> Broken file(s)
 sha256sum -c sha256sum.txt 2>/dev/null | grep -e 'OK$'
+```
+
+### APT partial mirror
+
+1. The repository must be signed with an official preinstalled key, otherwise:
+   ```
+   WARNING: The following packages cannot be authenticated!
+   ```
+2. The folder structure must persist
+
+#### System: On-line
+
+* https://www.debian.org/mirror/ftpmirror
+* https://wiki.debian.org/HowToSetupADebianRepository#APT_Archive_Mirroring_Tools
+
+```
+apt-key  -[key]->  Release.gpg  -[signature]->  Release  -[checksums]->  Packages.gz  -[checksums]->  *.deb
+```
+
+Please do not mirror Debian using wget and other tools based on FTP.
+They can't detect hard links, it's harder to make partial mirrors, etc.
+
+`ftp.debian.org` still exists mainly for backwards compatibility.
+Official Debian archive mirrors get an address of the form `ftp.<country>.debian.org`
+
+```sh
+wget --mirror -nH -l1 -i - <<- EOF
+ftp://ftp.debian.org/debian/dists/stable/
+ftp://ftp.debian.org/debian/dists/stable/main/binary-all/
+ftp://ftp.debian.org/debian/dists/stable/main/binary-i386/
+EOF
+```
+* [`rsync(1)`](https://download.samba.org/pub/rsync/rsync.html) man page
+ * `--files-from=-`
+   Note: It tweaks the default behavior of rsync
+
+```sh
+rsync -aR --prune-empty-dirs --progress --files-from=- rsync://ftp.nl.debian.org/debian/ repo/ <<- EOF
+/dists/stable/
+/dists/stable/main/binary-all/
+/dists/stable/main/binary-i386/
+EOF
+```
+
+##### `.deb`-Packages
+
+
+###### all binary-i386
+
+```sh
+rsync -aR --include="*_i386.deb" --filter="-! */" --progress --files-from=- rsync://ftp.nl.debian.org/debian/ repo/ <<- EOF
+/pool/main/s/screen/
+EOF
+```
+
+###### specific version
+
+* https://tracker.debian.org/pkg/debian-keyring
+ * versions
+  * pool directory
+
+```sh
+wget --mirror -nH -l1 -i - <<- EOF
+ftp://ftp.debian.org/debian/pool/main/d/debian-keyring/debian-keyring_2015.04.10_all.deb
+EOF
+```
+
+```sh
+apt-get download --print-uris scdaemon:i386 gnupg2:i386
+```
+
+```sh
+wget --mirror -nH -l1 -i - <<- EOF
+ftp://ftp.debian.org/debian/pool/main/g/gnupg2/scdaemon_2.0.26-6_i386.deb
+ftp://ftp.debian.org/debian/pool/main/g/gnupg2/gnupg2_2.0.26-6_i386.deb
+EOF
+```
+
+#### System: Off-line
+
+##### `/etc/apt/sources.list`
+Delete online sources and add the offline repository
+```sh
+user@debian:~$  sudo -i
+user@debian:~$  echo 'deb file:///home/user/repo/ stable main' > /etc/apt/sources.list
+user@debian:~$  sudo apt-get update
 ```
 
 
