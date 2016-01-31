@@ -32,6 +32,7 @@
 * [Applications](#applications)
   * [Tor Browser Bundle](#tor-browser-bundle)
 * [Misc](#misc)
+  * [Diceware](#diceware)
   * [Generate key](#generate-key)
     * [System: Online](#system-online)
     * [System: Offline](#system-offline-eg-knoppix)
@@ -693,10 +694,13 @@ gpg2 --verify tor-browser-linux*.asc
 
 
 ## Misc
-
 * [Cryptographic Algorithms - Cheat Sheet](http://if-is.net/crypto-poster/)
-* [Offline Passphrase Generator](https://en.wikipedia.org/wiki/Diceware)
-  * [Animated HowTo](https://ssd.eff.org/en/module/animated-overview-how-make-super-secure-password-using-dice)
+
+### [Diceware](https://en.wikipedia.org/wiki/Diceware)
+Offline passphrase generator
+- [Passphrase](http://world.std.com/~reinhold/diceware.html)
+- [PIN](http://world.std.com/~reinhold/dicewarefaq.html#decimal) (e.g. for [smartcard](#smartcard))
+- [Animated HowTo](https://ssd.eff.org/en/module/animated-overview-how-make-super-secure-password-using-dice)
 
 [![xkcd: Password Strength](http://imgs.xkcd.com/comics/password_strength.png)](https://xkcd.com/936/)
 *by [xkcd](https://xkcd.com/936/)*
