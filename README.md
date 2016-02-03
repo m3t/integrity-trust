@@ -637,6 +637,10 @@ sha256sum -c sha256sum.txt 2>/dev/null | grep -e 'OK$'
 **Beginners' guide**
 * https://capulcu.blackblogs.org/bandi/
 
+#### System: On-line
+
+Data to carry (CD, USB-Stick) to the offline-system
+
 **Download**
 ```sh
 wget --no-directories --no-parent --accept sig,torrent --recursive --https-only --secure-protocol=PFS https://tails.boum.org/torrents/files/
@@ -644,24 +648,45 @@ wget --no-directories --no-parent --accept iso --recursive http://dl.amnesia.bou
 ```
 
 ```sh
-wget -O - https://tails.boum.org/tails-signing.key | gpg2 --import
+wget https://tails.boum.org/tails-signing.key
 ```
+
+**Method**: [APT partial mirror](#apt-partial-mirror)
+
+```sh
+rsync -aR --prune-empty-dirs --progress --files-from=- rsync://ftp.nl.debian.org/debian/ debian/ <<- EOF
+/dists/stable/
+/dists/stable/main/binary-all/
+/dists/stable/main/binary-i386/
+EOF
+
+wget --mirror -nH -l1 -i - <<- EOF
+ftp://ftp.debian.org/debian/pool/main/d/debian-keyring/debian-keyring_2015.04.10_all.deb
+EOF
+```
+
+#### System: Off-line (e.g. [Debian Live 8.x i386](https://www.debian.org/CD/live/))
 
 **Method**: [Built-in keyring - Debian](#built-in-keyring1)
 * https://tails.boum.org/download/index.en.html
 * https://tails.boum.org/news/signing_key_transition/index.en.html
 * https://tails.boum.org/doc/get/trusting_tails_signing_key/index.en.html#debian
+
 ```sh
-apt-get download debian-keyring
-dpkg-deb -x debian-keyring*.deb keyring
-gpg2 --keyring=./keyring/usr/share/keyrings/debian-keyring.gpg --check-sigs tails@boum.org
+sudo -i
+echo 'deb file:///home/user/debian/ stable main' > /etc/apt/sources.list
+sudo apt-get update
+sudo apt-get install debian-keyring
+``` 
+
+```sh
+gpg2 --import tails-signing.key
+gpg2 --keyring=/usr/share/keyrings/debian-keyring.gpg --check-sigs tails@boum.org
 ```
 
 ```sh
-# Verify ISO
 gpg --verify tails-i386-*.iso.sig
 ```
-
 
 ## Applications
 
