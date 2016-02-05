@@ -450,7 +450,7 @@ Delete online sources and add the offline repository
 ```sh
 user@debian:~$  sudo -i
 user@debian:~$  echo 'deb file:///home/user/repo/ stable main' > /etc/apt/sources.list
-user@debian:~$  sudo apt-get update
+user@debian:~$  apt-get update
 ```
 
 
@@ -673,8 +673,9 @@ EOF
 ```sh
 sudo -i
 echo 'deb file:///home/user/debian/ stable main' > /etc/apt/sources.list
-sudo apt-get update
-sudo apt-get install debian-keyring
+apt-get update
+apt-get install debian-keyring
+exit
 ``` 
 
 ```sh
@@ -830,6 +831,8 @@ apt-get install screen
 apt-get install paperkey
 # Smartcard
 apt-get install pinentry-curses scdaemon pcscd libccid opensc-pkcs11
+
+exit
 ``` 
 
 ###### Scripts
