@@ -34,8 +34,6 @@
 * [Misc](#misc)
   * [Diceware](#diceware)
   * [Generate key](#generate-key)
-    * [System: Online](#system-online)
-    * [System: Offline](#system-offline-eg-knoppix)
   * [Smartcard](#smartcard)
   * [Splitting](#splitting-the-master-key-in-parts)
 
@@ -743,11 +741,11 @@ Offline passphrase generator
 * Quick guides, slides [#1](https://ssl.webpack.de/www.openpgp-schulungen.de/inhalte/einrichtung/materialien/)
   [#2](https://ssl.webpack.de/www.openpgp-schulungen.de/teilnehmer/)
 
-Better **not** use [haveged](https://wiki.archlinux.org/index.php/Haveged) for key generation!
+> Better **not** use [haveged](https://wiki.archlinux.org/index.php/Haveged) for key generation!
 Consider hardware-based [rngd](https://wiki.archlinux.org/index.php/Rng-tools) instead,
 in case you are too lazy producing entropy with your keyboard/mouse.
 
-#### System: Online
+#### System: On-line
 Data to carry (CD, USB-Stick) to the offline-system
 ```sh
 # http://www.heise.de/security/dienste/PGP-Schluessel-der-c-t-CA-473386.html
@@ -756,14 +754,85 @@ wget http://www.heise.de/security/dienste/pgp/keys/daffb000.asc
 # https://ssl.webpack.de/www.openpgp-schulungen.de/kontakt/
 # wget https://ssl.webpack.de/www.openpgp-schulungen.de/users/0x5A21B2D0.asc  # (stripped-down version)
 gpg2 --recv-keys 0x5A21B2D0
+gpg2 --armor --export 0x5A21B2D0 > 0x5A21B2D0.asc
 
 # https://ssl.webpack.de/www.openpgp-schulungen.de/download/
 wget https://ssl.webpack.de/www.openpgp-schulungen.de/download/openpgp-scripte.tgz
 wget https://ssl.webpack.de/www.openpgp-schulungen.de/download/openpgp-scripte.tgz.asc
 ```
 
-#### System: Offline (e.g. [Knoppix](#knoppix))
+**Method**: [APT partial mirror](#apt-partial-mirror)
+
+```sh
+rsync -aR --prune-empty-dirs --progress --files-from=- rsync://ftp.nl.debian.org/debian/ debian/ <<- EOF
+/dists/stable/
+/dists/stable/main/binary-i386/
+EOF
+
+wget --mirror -nH -l1 -i - <<- EOF
+# Scripts
+ftp://ftp.debian.org/debian/pool/main/s/screen/screen_4.2.1-3_i386.deb
+
+# Backup
+## Print just the OpenPGPs secret bits out on paper 
+ftp://ftp.debian.org/debian/pool/main/p/paperkey/paperkey_1.3-2_i386.deb
+
+# Smartcard
+## curses-based PIN or pass-phrase entry dialog for GnuPG
+ftp://ftp.debian.org/debian/pool/main/p/pinentry/pinentry-curses_0.8.3-2_i386.deb
+
+## scdaemon
+## is used by gnupg-agent to access OpenPGP smart cards.
+ftp://ftp.debian.org/debian/pool/main/g/gnupg2/scdaemon_2.0.26-6_i386.deb
+
+## PC/SC Lite resource manager
+## dynamically allocates/deallocates smart card reader drivers
+ftp://ftp.debian.org/debian/pool/main/p/pcsc-lite/pcscd_1.8.13-1_i386.deb
+
+## PC/SC driver for USB CCID smart card readers
+ftp://ftp.debian.org/debian/pool/main/c/ccid/libccid_1.4.18-1_i386.deb
+
+## OpenSC
+## implements the PKCS#11 API
+ftp://ftp.debian.org/debian/pool/main/o/opensc/opensc-pkcs11_0.14.0-2_i386.deb
+
+EOF
+```
+
+#### System: Off-line (e.g. [Debian Live 8.x i386](https://www.debian.org/CD/live/))
 * [Instructions for Knoppix](https://ssl.webpack.de/www.openpgp-schulungen.de/inhalte/einrichtung/materialien/knoppix-anleitung/)
+
+##### GNOME keyring
+- http://wiki.gnupg.org/GnomeKeyring
+
+```
+gpg2 --card-status
+# gpg: WARNING: The GNOME keyring manager hijacked the GnuPG agent.
+# gpg: WARNING: GnuPG will not work properly - please configure that tool to not interfere with the GnuPG system!
+# gpg: selecting openpgp failed: Unsupported certificate
+# gpg: OpenPGP card not available: Unsupported certificate
+```
+
+```
+sudo killall gnome-keyring-daemon
+```
+
+##### Dependencies
+
+```sh
+sudo -i
+echo 'deb file:///home/user/debian/ stable main' > /etc/apt/sources.list
+apt-get update
+
+# Scripts
+apt-get install screen
+# Backup
+apt-get install paperkey
+# Smartcard
+apt-get install pinentry-curses scdaemon pcscd libccid opensc-pkcs11
+``` 
+
+###### Scripts
 
 ```sh
 gpg2 --import 0x5A21B2D0.asc daffb000.asc
