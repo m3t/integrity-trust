@@ -459,6 +459,7 @@ user@debian:~$  apt-get update
 ### [JonDo](https://prism-break.org/en/projects/jondofox/)
 
 **Method**: [Web-/Keyserver](#web-keyserver)
+> ⚠ [Lack of up-to-date crypto and anonymity](https://privacy-handbuch.de/handbuch_23x.htm) ⚠
 * https://anonymous-proxy-servers.net/en/help/firststeps2.html
 ```sh
 # Option A
