@@ -464,20 +464,21 @@ For an appropriate browser setup check out:
 * https://privacy-handbuch.de/handbuch_21u.htm
 
 **Method**: [Web-/Keyserver](#web-keyserver)
+* https://anonymous-proxy-servers.net/en/help/install_pgp_signaturen.html
 * https://anonymous-proxy-servers.net/en/help/firststeps2.html
 ```sh
 # Option A
-curl --tlsv1.2 "https://anonymous-proxy-servers.net/downloads/JonDos_GmbH.asc" | gpg2 --with-fingerprint # [1]
+curl --tlsv1.2 "https://anonymous-proxy-servers.net/downloads/Software_JonDos_GmbH.asc" | gpg2 --with-fingerprint # [1]
 # Option B
 curl --tlsv1.2 "https://anonymous-proxy-servers.net/en/help/firststeps2.html" | grep -e 'fingerprint =' -C 1 # [1]
 
-gpg2 --search-key info@jondos.de
-gpg2 --fingerprint info@jondos.de # [2]
+gpg2 --search-key software@jondos.de
+gpg2 --fingerprint software@jondos.de # [2]
 ```
 
 ```sh
-gpg2 -a --export 'info@jondos.de' | sudo apt-key add -
-gpg2 --delete-key info@jondos.de
+gpg2 -a --export 'software@jondos.de' | sudo apt-key add -
+gpg2 --delete-key software@jondos.de
 ```
 
 ```sh
