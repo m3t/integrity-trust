@@ -524,7 +524,7 @@ sudo aptitude update
 
 ### [JonDo Live](https://prism-break.org/en/projects/jondo-live-cd/)
 
-> ⚠ Active development has been discontinued ⚠
+> ⚠ Active development has been [discontinued](https://anonymous-proxy-servers.net/blog/index.php?/archives/438-End-of-Live-DVD.html) ⚠
 
 **Download**
 ```sh
