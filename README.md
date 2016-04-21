@@ -44,7 +44,7 @@
 But this build process has to be carefully thought out:
 * **Git**
   * [Horror story](http://mikegerwitz.com/papers/git-horror-story)
-  * [Signing your work](https://git-scm.com/book/tr/v2/Git-Tools-Signing-Your-Work)
+  * [Signing your work](https://git-scm.com/book/tr/v2/Git-Tools-Signing-Your-Work) (on [GitHub](https://github.com/blog/2144-gpg-signature-verification) [[1]](https://help.github.com/articles/signing-commits-using-gpg/))
 >  
 * **Reproducible builds**
   * [The Tor Blog](https://blog.torproject.org/blog/deterministic-builds-part-one-cyberwar-and-global-compromise)
